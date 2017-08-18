@@ -1,0 +1,66 @@
+﻿
+<div id="app">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <button class="btn btn-primary" v-on:click="addPerson">Add Person</button>
+            <button class="btn btn-danger" v-on:click="deleteAll">Delete All</button>
+            <br />
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <th>Delete</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>
+                        Age
+                        <button class="btn btn-success" v-on:click="sortPeople">
+                            <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+                        </button>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+                <template v-for="person in people">
+                    <tr :class="{danger:allToDelete.includes(person.Id)}">
+                        <td>
+                            <input v-model="allToDelete" :value="person.Id" type="checkbox" class="form-control"/>
+                        </td>
+                        <td>{{person.FirstName}}</td>
+                        <td>{{person.LastName}}</td>
+                        <td>{{person.Age}}</td>
+                        <td>
+                            <button class="btn btn-warning" v-on:click="editPerson(person)">Edit</button>
+                            <button class="btn btn-danger" v-on:click="deletePerson(person)">Delete</button>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+    </div>
+
+    <div tabindex="-1" role="dialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" v-model="modalPerson.FirstName" placeholder="First Name" class="form-control" /><br />
+                    <input type="text" v-model="modalPerson.LastName" placeholder="Last Name" class="form-control" /><br />
+                    <input type="text" v-model="modalPerson.Age" placeholder="Age" class="form-control" /><br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                    <button type="button" v-if="isAddMode" class="btn btn-primary" v-on:click="savePerson">Add Person</button>
+                    <button type="button" v-else class="btn btn-danger" v-on:click="updatePerson">Update Person</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/people.js"></script>
+}
